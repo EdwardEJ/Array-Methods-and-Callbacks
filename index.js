@@ -67,7 +67,8 @@ function getWinners(getFinals) {
     } else if (item['Home Team Goals'] < item['Away Team Goals']) {
       return item['Away Team Name'];
     } else if (item['Home Team Goals'] === item['Away Team Goals']) {
-      return item['Win conditions'];
+      let nameWin = item['Win conditions'].split(' ');
+      return nameWin[0];
     }
   });
   return winners;
