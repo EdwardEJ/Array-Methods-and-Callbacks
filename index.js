@@ -34,8 +34,6 @@ console.log(`it's working`)
 
 
 
-
-
 /* Task 2: Create a function called  getFinals that takes `data` as an argument and returns an array of objects with only finals data */
 
 function getFinals(data) {
@@ -79,6 +77,7 @@ function getWinners(getFinals) {
 
 console.log(getWinners(getFinals));
 
+
 /* Task 6: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
 Parameters: 
@@ -106,12 +105,18 @@ function getAverageGoals(data) {
     return accumulator + item['Home Team Goals'] + item['Away Team Goals'];
   }, 0);
 
-  const avgGoals = totalGoals / data.length;
+  const avgGoals = (totalGoals / data.length);
 
   return avgGoals;
 }
 
+
+// function getAverageGoals(data) {
+//   return data.reduce((accumulator, item) => accumulator + item['Home Team Goals'], 0);
+// }
+
 console.log(getAverageGoals(fifaData));
+
 
 /// STRETCH 🥅 //
 
@@ -120,13 +125,28 @@ console.log(getAverageGoals(fifaData));
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
+function getCountryWins(data, initials) {
 
-  /* code here */
+  const sum = data.reduce(function (acc, item) {
+    if (item['Stage'] === 'Final') {
+      if (item['Home Team Initials'] === initials && item['Home Team Goals'] > item['Away Team Goals']) {
+        acc++;
+      } else if (item['Away Team Initials'] === initials && item['Home Team Goals'] < item['Away Team Goals']) {
+        acc++;
 
-};
+      } else if (item['Home Team Initials'] === initials && item['Home Team Goals'] === item['Away Team Goals']) {
+        let nameWin = item['Win conditions'].split(' ');
+        if (item['Home Team Name'] === nameWin[0]) {
+          acc++;
+        }
+      }
+    }
+    return acc;
+  }, 0);
+  return sum;
+}
 
-getCountryWins();
+console.log(getCountryWins(fifaData, 'ITA'));
 
 
 /* Stretch 3: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
